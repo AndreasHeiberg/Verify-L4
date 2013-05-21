@@ -2,6 +2,8 @@
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Config;
 
 class User extends BaseModel implements UserInterface, RemindableInterface {
     /**
@@ -48,10 +50,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
      */
     public function roles()
     {
-        return $this->belongsToMany(
-                'Toddish\Verify\Models\Role', 'role_user'
-            )
-            ->withTimestamps();;
+        return $this->belongsToMany('Toddish\Verify\Models\Role', 'role_user')->withTimestamps();
     }
 
     /**
@@ -61,11 +60,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
      */
     public function setPasswordAttribute($password)
     {
-        $salt = md5(\Str::random(64) . time());
-        $hashed = \Hash::make($salt . $password);
+        $hashed = Hash::make($password);
 
         $this->attributes['password'] = $hashed;
-        $this->attributes['salt'] = $salt;
     }
 
     /**
@@ -142,7 +139,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
         // Are we a super admin?
         foreach ($to_check->roles as $role)
         {
-            if ($role->name === \Config::get('verify::super_admin'))
+            if ($role->name === Config::get('verify::super_admin'))
             {
                 return TRUE;
             }
