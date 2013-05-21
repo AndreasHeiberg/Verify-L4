@@ -228,9 +228,9 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 		{
 			$to_check = new static;
 
-			$to_check = $class::with(array('roles', 'roles.permissions'))
-				->where('id', '=', $this->attributes['id'])
-				->first();
+			$to_check = $to_check::with(['roles', 'roles.permissions'])
+			->where('id', '=', $this->id)
+			->first();
 
 			$this->to_check_cache = $to_check;
 		}
