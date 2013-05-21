@@ -3,6 +3,7 @@
 use Illuminate\Hashing\HasherInterface;
 use Illuminate\Auth\UserProviderInterface;
 use Illuminate\Auth\UserInterface;
+use Illuminate\Support\Facades\Config;
 
 class VerifyUserProvider implements UserProviderInterface {
 	
@@ -48,54 +49,28 @@ class VerifyUserProvider implements UserProviderInterface {
 	 * Retrieve a user by the given credentials.
 	 *
 	 * @param  array  $credentials
-	 * @return Illuminate\Auth\UserInterface|null
+	 * @return \Illuminate\Auth\UserInterface|null
 	 */
 	public function retrieveByCredentials(array $credentials)
 	{
-		// Are we checking by identifier?
-		if (array_key_exists('identifier', $credentials)) {
-			// Grab each val to be identifed against
-			foreach (\Config::get('verify::identified_by') as $identified_by) {
-				// Create a new query for each check
-				$query = $this->createModel()->newQuery();
-				// Start off the query with the first identified_by value
-				$query->where($identified_by, $credentials['identifier']);
+		// First we will add each credential element to the query as a where clause.
+		// Then we can execute the query and, if we found a user, return it in a
+		// Eloquent User "model" that will be utilized by the Guard instances.
+		$query = $this->createModel()->newQuery();
 
-				// Add any other values to user has passed in
-				foreach ($credentials as $key => $value) {
-					if (
-						!str_contains($key, 'password') &&
-						!str_contains($key, 'identifier')
-					) {
-						$query->where($key, $value);
-					}
-				}
-
-				if ($query->count() != 0) {
-					break;
-				}
-			}
-		}
-		else
+		foreach ($credentials as $key => $value)
 		{
-			// First we will add each credential element to the query as a where clause.
-			// Then we can execute the query and, if we found a user, return it in a
-			// Eloquent User "model" that will be utilized by the Guard instances.
-			$query = $this->createModel()->newQuery();
-
-			foreach ($credentials as $key => $value) {
-				if (!str_contains($key, 'password')) {
-					$query->where($key, $value);
-				}
-			}
+			if ( ! str_contains($key, 'password') ) $query->where($key, $value);
 		}
 
-		// Failed to find a user?
-		if ($query->count() == 0) {
-			throw new UserNotFoundException('User can not be found');
+		$user = $query->first();
+
+		if ( ! $user )
+		{
+			throw new UserNotFoundException('User could not be found');
 		}
 
-		return $query->first();
+		return $user;
 	}
 
 	/**
@@ -108,23 +83,28 @@ class VerifyUserProvider implements UserProviderInterface {
 	public function validateCredentials(UserInterface $user, array $credentials)
 	{
 		$plain = $credentials['password'];
+		
 		// Is user password is valid?
-		if(!$this->hasher->check($user->salt.$plain, $user->getAuthPassword())) {
+		if( ! $this->hasher->check($plain, $user->getAuthPassword()) )
+		{
 			throw new UserPasswordIncorrectException('User password is incorrect');
 		}
 
 		// Valid user, but are they verified?
-		if (!$user->verified) {
+		if ( ! $user->verified)
+		{
 			throw new UserUnverifiedException('User is unverified');
 		}
 
 		// Is the user disabled?
-		if ($user->disabled) {
+		if ( $user->disabled )
+		{
 			throw new UserDisabledException('User is disabled');
 		}
 
 		// Is the user deleted?
-		if ($user->deleted_at !== NULL) {
+		if ( $user->deleted_at !== NULL )
+		{
 			throw new UserDeletedException('User is deleted');
 		}
 
