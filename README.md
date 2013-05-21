@@ -18,7 +18,7 @@ Add Verify to your composer.json file:
 
 ```
 "require": {
-	"toddish/verify": "2.0.*"
+	"andheiberg/verify": "2.0.*"
 }
 ```
 
