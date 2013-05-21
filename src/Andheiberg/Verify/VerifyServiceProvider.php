@@ -21,7 +21,7 @@ class VerifyServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        $this->package('toddish/verify');
+        $this->package('andheiberg/verify');
 
         \Auth::extend('verify', function()
         {

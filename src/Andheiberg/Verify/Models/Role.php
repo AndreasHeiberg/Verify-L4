@@ -1,8 +1,6 @@
-<?php
-namespace Toddish\Verify\Models;
+<?php namespace Andheiberg\Verify\Models;
 
-class Role extends BaseModel
-{
+class Role extends BaseModel {
     /**
      * The table associated with the model.
      *

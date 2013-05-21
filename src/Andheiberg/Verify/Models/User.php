@@ -1,11 +1,9 @@
-<?php
-namespace Toddish\Verify\Models;
+<?php namespace Andheiberg\Verify\Models;
 
 use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 
-class User extends BaseModel implements UserInterface, RemindableInterface
-{
+class User extends BaseModel implements UserInterface, RemindableInterface {
     /**
      * The table associated with the model.
      *
