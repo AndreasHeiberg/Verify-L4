@@ -101,7 +101,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 * @param  array|string  $roles A single role or an array of roles
 	 * @return boolean
 	 */
-	public function is($roles)
+	public function hasRole($roles)
 	{
 		$roles = !is_array($roles)
 			? array($roles)
@@ -115,7 +115,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 			if (in_array($role->name, $roles))
 			{
 				$valid = TRUE;
-				break;
 			}
 		}
 
@@ -128,7 +127,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 * @param  array|string $permissions Single permission or an array or permissions
 	 * @return boolean
 	 */
-	public function can($permissions)
+	public function hasPermission($permissions)
 	{
 		$permissions = !is_array($permissions)
 			? array($permissions)
