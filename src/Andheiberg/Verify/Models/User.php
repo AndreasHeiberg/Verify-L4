@@ -49,8 +49,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
     public function roles()
     {
         return $this->belongsToMany(
-                'Toddish\Verify\Models\Role',
-                $this->prefix.'role_user'
+                'Toddish\Verify\Models\Role', 'role_user'
             )
             ->withTimestamps();;
     }

@@ -66,8 +66,6 @@ Run this on the command line from the root of your project:
 
 This will publish Verify's config to ``app/config/packages/toddish/verify/``.
 
-You may also want to change the ``'db_prefix'`` value if you want a prefix on Verify's database tables.
-
 ### Migration
 
 Now migrate the database tables for Verify. Run this on the command line from the root of your project:

@@ -2,6 +2,9 @@
 
 If there are no installation instructions provided, assume a ```composer update``` will suffice.
 
+## v2.1
++ Removed table prefix support
+
 ## v2.0.1
 + Updated Readme with new version.
 
