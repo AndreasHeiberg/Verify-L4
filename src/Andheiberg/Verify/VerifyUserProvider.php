@@ -67,9 +67,7 @@ class VerifyUserProvider implements UserProviderInterface {
 
 		if ( ! $user )
 		{
-			$identifier = Config::get('verify::identified_by');
-
-			$user->errors->add($identifier, ucfirst($identifier).' does not exist');
+			throw new UserNotFoundException('User could not be found');
 		}
 
 		return $user;
@@ -85,30 +83,29 @@ class VerifyUserProvider implements UserProviderInterface {
 	public function validateCredentials(UserInterface $user, array $credentials)
 	{
 		$plain = $credentials['password'];
-		$identifier = Config::get('verify::identified_by');
 		
+		// Is user password is valid?
 		if( ! $this->hasher->check($plain, $user->getAuthPassword()) )
 		{
-			$user->errors->add('password', 'User password is incorrect');
-			return false;
+			throw new UserPasswordIncorrectException('User password is incorrect');
 		}
 
+		// Valid user, but are they verified?
 		if ( ! $user->verified)
 		{
-			$user->errors->add($identifier, 'User is unverified');
-			return false;
+			throw new UserUnverifiedException('User is unverified');
 		}
 
+		// Is the user disabled?
 		if ( $user->disabled )
 		{
-			$user->errors->add($identifier, 'User is disabled');
-			return false;
+			throw new UserDisabledException('User is disabled');
 		}
 
+		// Is the user deleted?
 		if ( $user->deleted_at !== NULL )
 		{
-			$user->errors->add($identifier, 'User is deleted');
-			return false;
+			throw new UserDeletedException('User is deleted');
 		}
 
 		return true;
@@ -126,3 +123,9 @@ class VerifyUserProvider implements UserProviderInterface {
 		return new $class;
 	}
 }
+
+class UserNotFoundException extends \Exception {};
+class UserUnverifiedException extends \Exception {};
+class UserDisabledException extends \Exception {};
+class UserDeletedException extends \Exception {};
+class UserPasswordIncorrectException extends \Exception {};

@@ -4,7 +4,6 @@ use Illuminate\Auth\UserInterface;
 use Illuminate\Auth\Reminders\RemindableInterface;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Config;
-use Illuminate\Support\MessageBag;
 
 class User extends BaseModel implements UserInterface, RemindableInterface {
 	/**
@@ -29,20 +28,6 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	protected $fillable = array('username', 'password', 'email', 'verified', 'disabled');
 
 	/**
-	 * Soft delete
-	 *
-	 * @var boolean
-	 */
-	protected $softDelete = true;
-
-	/**
-	 * Validation erros
-	 *
-	 * @var Illuminate\Support\MessageBag
-	 */
-	public $errors;
-
-	/**
 	 * To check cache
 	 *
 	 * Stores a cached user to check against
@@ -52,16 +37,11 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	protected $to_check_cache;
 
 	/**
-	 * Create a new User model instance.
+	 * Soft delete
 	 *
-	 * @param array   $attributes
-	 * @return Andheiberg\Verify\Models\User
+	 * @var boolean
 	 */
-	public function __construct( array $attributes = array() )
-	{
-		parent::__construct( $attributes );
-		$this->errors = new MessageBag;
-	}
+	protected $softDelete = true;
 
 	/**
 	 * Roles
@@ -74,7 +54,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	}
 
 	/**
-	 * Hashes and saves the password
+	 * Salts and saves the password
 	 *
 	 * @param string $password
 	 */
@@ -271,7 +251,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 
 			$this->roles()->save($role);
 		}
-
+		
 		return $this;
 	}
 
