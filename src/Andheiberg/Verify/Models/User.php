@@ -103,9 +103,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 */
 	public function hasRole($roles)
 	{
-		$roles = !is_array($roles)
-			? array($roles)
-			: $roles;
+		$roles = is_array($roles) ?: array($roles);
 
 		$to_check = $this->getToCheck();
 
@@ -129,9 +127,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 */
 	public function hasPermission($permissions)
 	{
-		$permissions = !is_array($permissions)
-			? array($permissions)
-			: $permissions;
+		$permissions = is_array($permissions) ?: array($permissions);
 
 		$to_check = $this->getToCheck();
 
@@ -167,7 +163,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 * @param  string $modifier [description]
 	 * @return boolean
 	 */
-	public function level($level, $modifier = '>=')
+	public function hasLevel($level, $modifier = '>=')
 	{
 		$to_check = $this->getToCheck();
 
@@ -217,13 +213,31 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	}
 
 	/**
+	 * Remove a role from the user
+	 *
+	 * @param  array|string $roles Single role or an array or roles
+	 * @return boolean
+	 */
+	public function revokeRole($roles)
+	{
+		$roles = is_array($roles) ?: array($roles);
+
+		foreach ($roles as $role)
+		{
+			$this->roles()->whereName($role)->detach();
+		}
+
+		return $valid;
+	}
+
+	/**
 	 * Get to check
 	 *
 	 * @return object
 	 */
 	private function getToCheck()
 	{
-		if(empty($this->to_check_cache))
+		if( empty($this->to_check_cache) )
 		{
 			$to_check = new static;
 
