@@ -4,6 +4,7 @@ If there are no installation instructions provided, assume a ```composer update`
 
 ## v2.1
 + Removed table prefix support
++ Removed salting of password
 
 ## v2.0.1
 + Updated Readme with new version.
