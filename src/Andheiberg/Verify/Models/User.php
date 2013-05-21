@@ -25,7 +25,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('username', 'password', 'email', 'verified', 'disabled');
+	protected $fillable = array('username', 'password', 'email');
 
 	/**
 	 * To check cache
@@ -323,5 +323,5 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	{
 		return $query->where('disabled', '=', 0);
 	}
-	
+
 }
