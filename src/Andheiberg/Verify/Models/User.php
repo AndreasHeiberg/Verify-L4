@@ -25,7 +25,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 *
 	 * @var array
 	 */
-	protected $fillable = array('username', 'password', 'salt', 'email', 'verified', 'deleted_at', 'disabled');
+	protected $fillable = array('username', 'password', 'email', 'verified', 'disabled');
 
 	/**
 	 * To check cache
@@ -50,7 +50,7 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	 */
 	public function roles()
 	{
-		return $this->belongsToMany('Toddish\Verify\Models\Role', 'role_user')->withTimestamps();
+		return $this->belongsToMany('Andheiberg\Verify\Models\Role', 'role_user')->withTimestamps();
 	}
 
 	/**
