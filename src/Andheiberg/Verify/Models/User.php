@@ -323,34 +323,5 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 	{
 		return $query->where('disabled', '=', 0);
 	}
-
-	App::error(function(\Andheiberg\Verify\UserNotFoundException $exception)
-	{
-		return 'UserNotFoundException';
-	});
-
-	App::error(function(\Andheiberg\Verify\UserUnverifiedException $exception)
-	{
-		return 'UserUnverifiedException';
-	});
-
-	App::error(function(\Andheiberg\Verify\UserDisabledException $exception)
-	{
-		return 'UserDisabledException';
-	});
-
-	App::error(function(\Andheiberg\Verify\UserDisabledException $exception)
-	{
-		return 'UserDisabledException';
-	});
-
-	App::error(function(\Andheiberg\Verify\UserDeletedException $exception)
-	{
-		return 'UserDeletedException';
-	});
-
-	App::error(function(\Andheiberg\Verify\UserPasswordIncorrectException $exception)
-	{
-		return 'UserPasswordIncorrectException';
-	});
+	
 }
