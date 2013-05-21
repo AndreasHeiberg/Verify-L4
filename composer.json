@@ -1,5 +1,5 @@
 {
-    "name": "toddish/verify",
+    "name": "andheiberg/verify",
     "description": "A simple authentication bundle for Laravel 4. It features roles, permissions, password salting and is fully extendable.",
     "license": "MIT",
     "authors": [
@@ -7,6 +7,11 @@
             "name": "Todd Francis",
             "email": "todd@toddish.co.uk",
             "homepage": "http://toddish.co.uk"
+        },
+        {
+            "name": "Andreas Heiberg",
+            "email": "heibergandreas@gmail.com",
+            "homepage": "http://andreas-heiberg.com/"
         }
     ],
     "keywords": ["laravel", "auth", "permissions", "roles", "verify"],
@@ -20,7 +25,7 @@
             "src/migrations"
         ],
         "psr-0": {
-            "Toddish\\Verify": "src/"
+            "Andheiberg\\Verify": "src/"
         }
     },
     "minimum-stability": "dev"
