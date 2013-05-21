@@ -227,7 +227,32 @@ class User extends BaseModel implements UserInterface, RemindableInterface {
 			$this->roles()->whereName($role)->detach();
 		}
 
-		return $valid;
+		return $this;
+	}
+
+	/**
+	 * Give a role to the user
+	 *
+	 * @param  array|string $roles Single role or an array or roles
+	 * @return boolean
+	 */
+	public function assignRole($roles)
+	{
+		$roles = is_array($roles) ?: array($roles);
+
+		foreach ($roles as $role)
+		{
+			$role = Role::whereName($role)->first();
+
+			if ( ! $role )
+			{
+				throw new ModelNotFoundException();
+			}
+
+			$this->roles()->save($role);
+		}
+		
+		return $this;
 	}
 
 	/**
