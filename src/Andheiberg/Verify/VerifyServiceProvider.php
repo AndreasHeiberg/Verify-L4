@@ -24,13 +24,7 @@ class VerifyServiceProvider extends ServiceProvider {
 
 		\Auth::extend('verify', function()
 		{
-			return new Guard(
-				new VerifyUserProvider(
-					new BcryptHasher,
-					\Config::get('auth.model')
-				),
-				\App::make('session')
-			);
+			return new VerifyUserProvider(new BcryptHasher, \Config::get('auth.model'));
 		});
 	}
 
