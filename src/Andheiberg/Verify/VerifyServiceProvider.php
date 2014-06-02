@@ -21,11 +21,6 @@ class VerifyServiceProvider extends ServiceProvider {
 	public function boot()
 	{
 		$this->package('andheiberg/verify');
-
-		\Auth::extend('verify', function()
-		{
-			return new VerifyUserProvider(new BcryptHasher, \Config::get('auth.model'));
-		});
 	}
 
 	/**

@@ -8,4 +8,6 @@ return array(
 	// (returns true for all permissions)
 	'super_admin' => 'Super Admin',
 
+	'user_model' => 'User',
+
 );

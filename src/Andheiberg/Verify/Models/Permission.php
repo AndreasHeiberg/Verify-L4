@@ -1,6 +1,8 @@
 <?php namespace Andheiberg\Verify\Models;
 
-class Permission extends BaseModel {
+use Illuminate\Database\Eloquent\Model as Eloquent;
+
+class Permission extends Eloquent {
 	
 	/**
 	 * The table associated with the model.

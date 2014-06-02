@@ -1,6 +1,9 @@
 <?php namespace Andheiberg\Verify\Models;
 
-class Role extends BaseModel {
+use Illuminate\Database\Eloquent\Model as Eloquent;
+use Config;
+
+class Role extends Eloquent {
 	/**
 	 * The table associated with the model.
 	 *
@@ -22,7 +25,7 @@ class Role extends BaseModel {
 	 */
 	public function users()
 	{
-		return $this->belongsToMany('Andheiberg\Verify\Models\User', 'role_user')->withTimestamps();
+		return $this->belongsToMany(Config::get('verify::user_model'), 'role_user')->withTimestamps();
 	}
 
 	/**
